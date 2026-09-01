@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
+    <key>CFBundleDisplayName</key><string>NOVA</string>
+    <key>CFBundleExecutable</key><string>NOVA</string>
+    <key>CFBundleIdentifier</key><string>com.nova.assistant</string>
+    <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+    <key>CFBundleName</key><string>NOVA</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleShortVersionString</key><string>0.1.0</string>
+    <key>CFBundleVersion</key><string>1</string>
+    <key>LSMinimumSystemVersion</key><string>14.0</string>
+    <key>LSUIElement</key><true/>
+    <key>NSAppTransportSecurity</key>
+    <dict><key>NSAllowsLocalNetworking</key><true/></dict>
+    <key>NSMicrophoneUsageDescription</key><string>NOVA uses the microphone only when you turn on voice or wake-word listening.</string>
+    <key>NSSpeechRecognitionUsageDescription</key><string>NOVA transcribes your speech to answer spoken requests.</string>
+    <key>NSAppleEventsUsageDescription</key><string>NOVA can open approved apps only after you ask it to.</string>
+</dict>
+</plist>
