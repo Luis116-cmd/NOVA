@@ -1,7 +1,8 @@
 import Foundation
 import AppKit
 
-public class NOVASettingsPresenter {
+@MainActor
+public final class NOVASettingsPresenter {
     public static func show(from window: NSWindow?, coordinator: NOVACoordinator) {
         let alert = NSAlert()
         alert.messageText = "NOVA Settings"
