@@ -9,6 +9,7 @@ final class NOVAApplication: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     private var panel: NOVAPanelController!
+    private var avatarWindow: NOVAAvatarWindowController!
 
     static func main() {
         let app = NSApplication.shared
@@ -19,6 +20,9 @@ final class NOVAApplication: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        avatarWindow = NOVAAvatarWindowController()
+        avatarWindow.showOnScreen()
+
         panel = NOVAPanelController(coordinator: coordinator)
         popover = NSPopover()
         popover.behavior = .transient
@@ -34,12 +38,15 @@ final class NOVAApplication: NSObject, NSApplicationDelegate {
 
         coordinator.onTranscript = { [weak self] transcript in
             self?.panel.updateTranscript(transcript)
+            self?.avatarWindow.avatarView.state = .listening
         }
         coordinator.onReply = { [weak self] reply in
             self?.panel.append(role: "NOVA", text: reply)
+            self?.avatarWindow.avatarView.state = .speaking
         }
         coordinator.onUserMessage = { [weak self] message in
             self?.panel.append(role: "You", text: message)
+            self?.avatarWindow.avatarView.state = .thinking
         }
         coordinator.onListeningChanged = { [weak self] isListening in
             self?.panel.updateListening(isListening)
@@ -47,6 +54,11 @@ final class NOVAApplication: NSObject, NSApplicationDelegate {
                 systemSymbolName: isListening ? "waveform.circle.fill" : "n.circle.fill",
                 accessibilityDescription: "NOVA"
             )
+            if isListening {
+                self?.avatarWindow.avatarView.state = .listening
+            } else if self?.avatarWindow.avatarView.state == .listening {
+                self?.avatarWindow.avatarView.state = .idle
+            }
         }
     }
 
@@ -57,11 +69,13 @@ final class NOVAApplication: NSObject, NSApplicationDelegate {
         } else {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
+            avatarWindow.showOnScreen()
         }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         coordinator.stopListening()
+        avatarWindow.hide()
     }
 }
 
